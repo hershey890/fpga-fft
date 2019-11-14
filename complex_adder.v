@@ -21,8 +21,8 @@
 module complex_adder(
 	input wire clk,
 	input wire rst,
-	input wire [15:0] i_data_ra, //twiddle factor
-	input wire [15:0] i_data_ca, //twiddle factor
+	input wire [15:0] i_data_ra,
+	input wire [15:0] i_data_ca,
 	input wire [15:0] i_data_rb,
 	input wire [15:0] i_data_cb,
 	output reg [15:0] o_data_r,
