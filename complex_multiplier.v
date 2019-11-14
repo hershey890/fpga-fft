@@ -25,8 +25,8 @@ module complex_multiplier(
 	input wire [15:0] i_data_ca, //twiddle factor
 	input wire [15:0] i_data_rb,
 	input wire [15:0] i_data_cb,
-	output reg [32:0] o_data_r,
-	output reg [32:0] o_data_c
+	output reg [31:0] o_data_r,
+	output reg [31:0] o_data_c
 	);
 
 	always @ (posedge clk, posedge rst)
