@@ -3,9 +3,9 @@
 // Company: 
 // Engineer: 
 // 
-// Create Date:    21:35:38 11/12/2019 
+// Create Date:    20:05:01 11/14/2019 
 // Design Name: 
-// Module Name:    complex_multiplier 
+// Module Name:    complex_adder 
 // Project Name: 
 // Target Devices: 
 // Tool versions: 
@@ -18,25 +18,26 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-module complex_multiplier(
+module complex_adder(
 	input wire clk,
 	input wire rst,
 	input wire [15:0] i_data_ra, //twiddle factor
 	input wire [15:0] i_data_ca, //twiddle factor
 	input wire [15:0] i_data_rb,
 	input wire [15:0] i_data_cb,
-	output reg [32:0] o_data_r,
-	output reg [32:0] o_data_c
-	);
-
+	output reg [15:0] o_data_r,
+	output reg [15:0] o_data_c
+    );
+	
 	always @ (posedge clk, posedge rst)
 		if(rst) begin
 			o_data_r <= 0;
 			o_data_c <= 0;
 		end
 		else begin
-			o_data_r <= i_data_ra*i_data_rb - i_data_ca*i_data_cb;
-			o_data_c <= i_data_ra*i_data_cb + i_data_ca*i_data_rb;
+			o_data_r <= i_data_ra + i_data_rb;
+			o_data_c <= i_data_ca + i_data_cb;
 		end
+
 
 endmodule
