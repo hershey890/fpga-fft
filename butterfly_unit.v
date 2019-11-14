@@ -58,8 +58,8 @@ module butterfly_unit(
 								.rst(rst),
 								.i_data_ra(i_data_ra),
 								.i_data_ca(i_data_ca),
-								.i_data_rb(mult_out_r[30:15]), //should be negative
-								.i_data_cb(mult_out_c[30:15]), //should be negative
+								.i_data_rb(~(mult_out_r[30:15])+1), //may not work
+								.i_data_cb(~(mult_out_c[30:15])+1), //may not work
 								.o_data_r(o_data_rb),
 								.o_data_c(o_data_cb));
 	
