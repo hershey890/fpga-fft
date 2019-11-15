@@ -27,10 +27,10 @@ module butterfly_unit(
 	input wire [15:0] i_data_cb,
 	input wire [15:0] i_twiddle_r,
 	input wire [15:0] i_twiddle_c,
-	output reg [15:0] o_data_ra,
-	output reg [15:0] o_data_ca,
-	output reg [15:0] o_data_rb,
-	output reg [15:0] o_data_cb
+	output wire [15:0] o_data_ra,
+	output wire [15:0] o_data_ca,
+	output wire [15:0] o_data_rb,
+	output wire [15:0] o_data_cb
     );
 	 
 	wire [31:0] mult_out_r;
