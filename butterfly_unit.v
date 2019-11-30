@@ -9,8 +9,6 @@ module butterfly_unit(
 	input wire [data_size:0] i_data_rb,
 	input wire [data_size:0] i_data_cb,
 	input wire [3:0] twiddle_num,
-	//input wire [data_size:0] i_twiddle_r, //take the twiddle number instead and do lookup internally, declare twiddle_LUT tables
-	//input wire [data_size:0] i_twiddle_c,
 	output reg [data_size:0] o_data_ra,
 	output reg [data_size:0] o_data_ca,
 	output reg [data_size:0] o_data_rb,
@@ -21,8 +19,8 @@ module butterfly_unit(
 	 * Twiddle Generation
 	 *********************************************************************/
 	 
-	reg [15:0] twiddle_real;
-	reg [15:0] twiddle_imag;
+	wire [15:0] twiddle_real;
+	wire [15:0] twiddle_imag;
 	twiddle_LUT twiddle(	.clk(clk),
 								.rst(rst),
 								.twiddle_num(twiddle_num),
@@ -37,7 +35,9 @@ module butterfly_unit(
 	reg [63:0] temp_r;
 	reg [63:0] temp_c;
 	
-	/* Sign extend top bit of inputs for 2's complement multiplication*/
+	/* Sign extend top bit of inputs for 2's complement multiplication 
+	 * Method: http://pages.cs.wisc.edu/~david/courses/cs354/beyond354/int.mult.html 
+	 */
 	wire [31:0] i_data_rb_extend;
 	wire [31:0] i_data_cb_extend;
 	wire [31:0] i_twiddle_r_extend;
