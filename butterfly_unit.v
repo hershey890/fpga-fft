@@ -21,23 +21,7 @@
 
 `include "parameters.v"
 
-// Sign extends top bit, used in 2's comp multiplication
-function [2*(data_size+1)-1:0] extended (	
-	input [data_size:0] in_val);
-	begin
-		extended= {{(data_size+1){in_val[data_size]}}, in_val};
-	end	
-endfunction
-
-//takes the negative of a value in 2's comp for subtraction
-function [data_size:0] negative (
-	input [data_size:0] in_val);
-	begin
-		negative = ~in_val + 1;
-	end
-endfunction
-
-module butterfly_unit_simple(	
+module butterfly_unit(	
 	input wire clk,
 	input wire rst,
 	input wire [data_size:0] i_data_ra,
