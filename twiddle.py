@@ -17,12 +17,12 @@ print('Real')
 for i in range(N):
     print('4\'d', end='')
     print(i, end=': ')
-    print('twiddle_real <=', end=' 16\'b')
+    print('twiddle_val <=', end=' 16\'b')
     print(omega_real_bin[i], end=';\n')
 
 print('\nImaginary')
 for i in range(N):
     print('4\'d', end='')
     print(i, end=': ')
-    print('twiddle_imag <=', end=' 16\'b')
-    print(omega_real_bin[i], end=';\n')
+    print('twiddle_val <=', end=' 16\'b')
+    print(omega_imag_bin[i], end=';\n')
