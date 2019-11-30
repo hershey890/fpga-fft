@@ -18,25 +18,28 @@
 // Additional Comments: 
 //
 //////////////////////////////////////////////////////////////////////////////////
-`timescale 1ns / 1ps
-
 module testbench;
-
 	reg clk;
 	reg rst;
-	reg[4:0] valid_result;
-	reg [15:0] i_data_ra;
-	reg [15:0] i_data_ca;
-	reg [15:0] i_data_rb;
-	reg [15:0] i_data_cb;
-	reg [15:0] i_twiddle_r;
-	reg [15:0] i_twiddle_c;
-	wire [15:0] o_data_ra;
-	wire [15:0] o_data_ca;
-	wire [15:0] o_data_rb;
-	wire [15:0] o_data_cb;
-
-	butterfly_unit butt(	clk,
+	reg[3:0] valid_result;
+	reg [data_size:0] i_data_ra;
+	reg [data_size:0] i_data_ca;
+	reg [data_size:0] i_data_rb;
+	reg [data_size:0] i_data_cb;
+	reg [data_size:0] i_twiddle_r;
+	reg [data_size:0] i_twiddle_c;
+	wire [data_size:0] o_data_ra;
+	wire [data_size:0] o_data_ca;
+	wire [data_size:0] o_data_rb;
+	wire [data_size:0] o_data_cb;
+	
+	// Twiddle module Input/Outputs
+	wire twiddle_real;
+	wire twiddle_imag;
+	reg [3:0] twiddle_index;
+	wire [data_size:0] twiddle_val;
+	
+	butterfly_unit but(	clk,
 								rst,
 								i_data_ra,
 								i_data_ca,
@@ -49,25 +52,80 @@ module testbench;
 								o_data_rb,
 								o_data_cb);
 								
+	/*twiddle_LUT omega_real(	.clk(clk),
+									.rst(rst),
+									.real_imag(REAL),
+									.twiddle_num(twiddle_index),
+									.twiddle_val(i_twiddle_r));
+									
+	twiddle_LUT omega_imag(	.clk(clk),
+									.rst(rst),
+									.real_imag(IMAG),
+									.twiddle_num(twiddle_index),
+									.twiddle_val(i_twiddle_c));*/
+								
 	initial begin
 		clk = 0;
 		rst = 1;
 		#5 rst = 0;
 		
-		i_data_ra = 5;
-		i_data_ca = 6;
-		i_data_rb = 10;
-		i_data_cb = 3;
-		i_twiddle_r = 1;
-		i_twiddle_c = 0;
+		i_data_ra = 16'd1;
+		i_data_ca = 16'd2;
+		i_data_rb = 16'd3;
+		i_data_cb = 16'd4;
+		// a_r = 4
+		// a_c = 6
+		// b_r = -2
+		// b_c = -2
+		//twiddle_index = 4'd0;
+		i_twiddle_r = 16'b0111111111111111;
+		i_twiddle_c = 16'b0000000000000000;
 		
-		#20 valid_result[0] = (o_data_ra == i_data_ra+i_data_rb) && (o_data_rb == i_data_ra-i_data_rb) &&
-								 (o_data_ca == i_data_ca+i_data_cb) && (o_data_cb == i_data_ca-i_data_cb);
-		valid_result[1] = (o_data_ra == i_data_ra+i_data_rb);
-		valid_result[2] = (o_data_rb == i_data_ra-i_data_rb);
-		valid_result[3] = (o_data_ca == i_data_ca+i_data_cb);
-		valid_result[4] = (o_data_cb == i_data_ca-i_data_cb);
+		#20 
+		valid_result[0] = (o_data_ra == i_data_ra+i_data_rb);
+		valid_result[1] = (o_data_rb == i_data_ra-i_data_rb);
+		valid_result[2] = (o_data_ca == i_data_ca+i_data_cb);
+		valid_result[3] = (o_data_cb == i_data_ca-i_data_cb);
 	end
+	/*
+	wire [31:0] wire_mult_out_r;
+	wire [31:0] wire_mult_out_c;
+	
+	mult_test mult (	.clk(clk),
+							.rst(rst),
+							.i_data_ra(i_data_ra),
+							.i_data_rb(i_data_rb),
+							.i_data_ca(i_data_ca),
+							.i_data_cb(i_data_cb),
+							.mult_out_r(wire_mult_out_r),
+							.mult_out_c(wire_mult_out_c));
+							
+	initial begin
+		clk = 0;
+		rst = 1;
+		#5 rst = 0;
+		
+		i_data_ra = 16'd1;
+		i_data_ca = 16'd2;
+		i_data_rb = 16'd3;
+		i_data_cb = 16'd4;
+		//o_data_r = 1*3-2*4=3-8=-5  =11111111111111111111111111111011
+		//o_data_c = 1*4+2*3=4+6=  10=00000000000000000000000000001010
+		
+		#20
+		i_data_ra = ~(16'd1)+1;
+		i_data_ca = ~(16'd2)+1;
+		i_data_rb = ~(16'd3)+1;
+		i_data_cb = ~(16'd4)+1;
+		
+		#20
+		i_data_ra = ~(16'd1)+1;
+		i_data_ca = 16'd2;
+		i_data_rb = 16'd3;
+		i_data_cb = ~(16'd4)+1;
+		//r = -1*3-2*-4=-3+8=5
+		//c = -1*-4+2*3=4+6=10
+	end*/
 
 	always #5 clk = ~clk;
 

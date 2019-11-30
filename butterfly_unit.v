@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    21:00:23 11/14/2019 
-// Design Name: 
-// Module Name:    butterfly_unit 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
-
 `include "parameters.v"
 
 module butterfly_unit(	
@@ -72,16 +52,16 @@ module butterfly_unit(
 		end
 		else begin
 			// Multiplication
-			temp_r <= i_data_ra_extend*i_data_rb_extend + (~(i_data_ca_extend*i_data_cb_extend) + 1);
-			temp_c <= i_data_ra_extend*i_data_cb_extend + i_data_ca_extend*i_data_rb_extend;
+			temp_r <= i_data_rb_extend*i_twiddle_r_extend + (~(i_data_cb_extend*i_twiddle_c_extend) + 1);
+			temp_c <= i_data_rb_extend*i_twiddle_c_extend + i_data_cb_extend*i_twiddle_r_extend;
 			mult_out_r <= temp_r[31:0];
 			mult_out_c <= temp_c[31:0];
 
 			// Addition
 			o_data_ra <= i_data_ra + mult_out_r[2*data_size:data_size];
 			o_data_ca <= i_data_ca + mult_out_c[2*data_size:data_size];
-			o_data_rb <= i_data_ra + (~(mult_out_r[2*data_size:data_size])+1);
-			o_data_cb <= i_data_ca + (~(mult_out_c[2*data_size:data_size])+1);
+			o_data_rb <= i_data_ra + (~mult_out_r[2*data_size:data_size]+1);
+			o_data_cb <= i_data_ca + (~mult_out_c[2*data_size:data_size]+1);
 		end
 	
 endmodule
