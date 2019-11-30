@@ -8,13 +8,26 @@ module butterfly_unit(
 	input wire [data_size:0] i_data_ca,
 	input wire [data_size:0] i_data_rb,
 	input wire [data_size:0] i_data_cb,
-	input wire [data_size:0] i_twiddle_r,
-	input wire [data_size:0] i_twiddle_c,
+	input wire [3:0] twiddle_num,
+	//input wire [data_size:0] i_twiddle_r, //take the twiddle number instead and do lookup internally, declare twiddle_LUT tables
+	//input wire [data_size:0] i_twiddle_c,
 	output reg [data_size:0] o_data_ra,
 	output reg [data_size:0] o_data_ca,
 	output reg [data_size:0] o_data_rb,
 	output reg [data_size:0] o_data_cb
     );
+	 
+	/*********************************************************************
+	 * Twiddle Generation
+	 *********************************************************************/
+	 
+	reg [15:0] twiddle_real;
+	reg [15:0] twiddle_imag;
+	twiddle_LUT twiddle(	.clk(clk),
+								.rst(rst),
+								.twiddle_num(twiddle_num),
+								.twiddle_val_real(twiddle_real),
+								.twiddle_val_imag(twiddle_imag));
 	 
 	/*********************************************************************
 	 * Multiplication 
@@ -32,8 +45,8 @@ module butterfly_unit(
 	
 	assign i_data_rb_extend = {{(data_size+1){i_data_rb[data_size]}}, i_data_rb};
 	assign i_data_cb_extend = {{(data_size+1){i_data_cb[data_size]}}, i_data_cb};
-	assign i_twiddle_r_extend = {{(data_size+1){i_twiddle_r[data_size]}}, i_twiddle_r};
-	assign i_twiddle_c_extend = {{(data_size+1){i_twiddle_c[data_size]}}, i_twiddle_c};
+	assign i_twiddle_r_extend = {{(data_size+1){twiddle_real[data_size]}}, twiddle_real};
+	assign i_twiddle_c_extend = {{(data_size+1){twiddle_imag[data_size]}}, twiddle_imag};
 	
 	/*********************************************************************
 	 * Butterfly Computation
