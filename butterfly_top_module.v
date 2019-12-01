@@ -79,7 +79,6 @@ module butterfly_top_module(
 	 * Twiddle Indices
 	 *********************************************************************/
 	wire [3:0] twiddle_index [15:0];
-	//reg [3:0] twiddle_index [15:0];
 	assign twiddle_index[0] = 4'd0;
 	assign twiddle_index[1] = 4'd1;
 	assign twiddle_index[2] = 4'd2;
@@ -97,97 +96,216 @@ module butterfly_top_module(
 	assign twiddle_index[14] = 4'd14;
 	assign twiddle_index[15] = 4'd15;
 	
-	/*always @ (posedge rst) begin
-		twiddle_index[0] <= 4'd0;
-		twiddle_index[1] <= 4'd1;
-		twiddle_index[2] <= 4'd2;
-		twiddle_index[3] <= 4'd3;
-		twiddle_index[4] <= 4'd4;
-		twiddle_index[5] <= 4'd5;
-		twiddle_index[6] <= 4'd6;
-		twiddle_index[7] <= 4'd7;
-		twiddle_index[8] <= 4'd8;
-		twiddle_index[9] <= 4'd9;
-		twiddle_index[10] <= 4'd10;
-		twiddle_index[11] <= 4'd11;
-		twiddle_index[12] <= 4'd12;
-		twiddle_index[13] <= 4'd13;
-		twiddle_index[14] <= 4'd14;
-		twiddle_index[15] <= 4'd15;
-	end*/
-
 	/*********************************************************************
 	 * Buttefly Units Layer 1/4
 	 *********************************************************************/
-	 //4-point FFT
-	 //Layer 1
-	 wire [15:0] layer1_wire_real [3:0];
-	 wire [15:0] layer1_wire_imag [3:0];
-	 wire layer1_ready_flag [1:0];
-	 butterfly_unit_input lay0_bfu0 (
+	 wire [15:0] layer1_wire_real [7:0];
+	 wire [15:0] layer1_wire_imag [7:0];
+	 wire layer1_ready_flag [3:0];
+	 
+	 butterfly_unit_input lay1_bfu1 (
 			.clk(clk),
 			.rst(rst),
 			.i_data_ra(input_real0),
 			.i_data_ca(input_imag0),
-			.i_data_rb(input_real2),
-			.i_data_cb(input_imag2),
+			.i_data_rb(input_real4),
+			.i_data_cb(input_imag4),
 			.twiddle_num(twiddle_index[0]),
 			.new_input_flag(new_input_flag), // used for synchronization
 			.o_data_ra(layer1_wire_real[0]),
 			.o_data_ca(layer1_wire_imag[0]),
-			.o_data_rb(layer1_wire_real[2]),
-			.o_data_cb(layer1_wire_imag[2]),
+			.o_data_rb(layer1_wire_real[4]),
+			.o_data_cb(layer1_wire_imag[4]),
 			.ready_flag(layer1_ready_flag[0]));
 			
-	 butterfly_unit_input lay0_bfu1 (
+	 butterfly_unit_input lay1_bfu2 (
+			.clk(clk),
+			.rst(rst),
+			.i_data_ra(input_real2),
+			.i_data_ca(input_imag2),
+			.i_data_rb(input_real6),
+			.i_data_cb(input_imag6),
+			.twiddle_num(twiddle_index[0]),
+			.new_input_flag(new_input_flag), // used for synchronization
+			.o_data_ra(layer1_wire_real[2]),
+			.o_data_ca(layer1_wire_imag[2]),
+			.o_data_rb(layer1_wire_real[6]),
+			.o_data_cb(layer1_wire_imag[6]),
+			.ready_flag(layer1_ready_flag[1]));
+	
+	butterfly_unit_input lay1_bfu3 (
 			.clk(clk),
 			.rst(rst),
 			.i_data_ra(input_real1),
 			.i_data_ca(input_imag1),
-			.i_data_rb(input_real3),
-			.i_data_cb(input_imag3),
+			.i_data_rb(input_real5),
+			.i_data_cb(input_imag5),
 			.twiddle_num(twiddle_index[0]),
 			.new_input_flag(new_input_flag), // used for synchronization
 			.o_data_ra(layer1_wire_real[1]),
 			.o_data_ca(layer1_wire_imag[1]),
-			.o_data_rb(layer1_wire_real[3]),
-			.o_data_cb(layer1_wire_imag[3]),
-			.ready_flag(layer1_ready_flag[1]));
+			.o_data_rb(layer1_wire_real[5]),
+			.o_data_cb(layer1_wire_imag[5]),
+			.ready_flag(layer1_ready_flag[2]));
+			
+	 butterfly_unit_input lay1_bfu4 (
+			.clk(clk),
+			.rst(rst),
+			.i_data_ra(input_real3),
+			.i_data_ca(input_imag3),
+			.i_data_rb(input_real7),
+			.i_data_cb(input_imag7),
+			.twiddle_num(twiddle_index[0]),
+			.new_input_flag(new_input_flag), // used for synchronization
+			.o_data_ra(layer1_wire_real[3]),
+			.o_data_ca(layer1_wire_imag[3]),
+			.o_data_rb(layer1_wire_real[7]),
+			.o_data_cb(layer1_wire_imag[7]),
+			.ready_flag(layer1_ready_flag[3]));
 	 
-	//Layer 2
-	wire [15:0] layer2_wire_real [3:0];
-	wire [15:0] layer2_wire_imag [3:0];
-	wire layer2_ready_flag [1:0];
-	assign lay1_new_input_flag = layer1_ready_flag[0] & layer1_ready_flag[1];
-	butterfly_unit_intermediate lay1_bfu0 (
+	/*********************************************************************
+	 * Buttefly Units Layer 2/4
+	 *********************************************************************/
+	wire [15:0] layer2_wire_real [7:0];
+	wire [15:0] layer2_wire_imag [7:0];
+	wire layer2_ready_flag [3:0];
+	wire lay1_new_input_flag [1:0];
+	assign lay1_new_input_flag[0] = layer1_ready_flag[0] & layer1_ready_flag[1]; 
+	assign lay1_new_input_flag[1] = layer1_ready_flag[2] & layer1_ready_flag[3];
+	
+	//top 2
+	butterfly_unit_intermediate lay2_bfu1 (
 		.clk(clk),
 		.rst(rst),
 		.i_data_ra(layer1_wire_real[0]),
 		.i_data_ca(layer1_wire_imag[0]),
-		.i_data_rb(layer1_wire_real[1]),
-		.i_data_cb(layer1_wire_imag[1]),
-		.twiddle_num(twiddle_index[0]),
-		.new_input_flag(lay1_new_input_flag), // used for synchronization
-		.o_data_ra(output_real0),
-		.o_data_ca(output_imag0),
-		.o_data_rb(output_real2),
-		.o_data_cb(output_imag2),
+		.i_data_rb(layer1_wire_real[2]),
+		.i_data_cb(layer1_wire_imag[2]),
+		.twiddle_num(twiddle_index[0]), //twiddle 0
+		.new_input_flag(lay1_new_input_flag[0]), // used for synchronization
+		.o_data_ra(layer2_wire_real[0]),
+		.o_data_ca(layer2_wire_imag[0]),
+		.o_data_rb(layer2_wire_real[2]),
+		.o_data_cb(layer2_wire_imag[2]),
 		.ready_flag(layer2_ready_flag[0]));
 
-	butterfly_unit_intermediate lay1_bfu1 (
+	butterfly_unit_intermediate lay2_bfu2 (
 		.clk(clk),
 		.rst(rst),
-		.i_data_ra(layer1_wire_real[2]),
-		.i_data_ca(layer1_wire_imag[2]),
+		.i_data_ra(layer1_wire_real[4]),
+		.i_data_ca(layer1_wire_imag[4]),
+		.i_data_rb(layer1_wire_real[6]),
+		.i_data_cb(layer1_wire_imag[6]),
+		.twiddle_num(twiddle_index[4]), //twiddle index 2/8->4
+		.new_input_flag(lay1_new_input_flag[0]), // used for synchronization
+		.o_data_ra(layer2_wire_real[4]),
+		.o_data_ca(layer2_wire_imag[4]),
+		.o_data_rb(layer2_wire_real[6]),
+		.o_data_cb(layer2_wire_imag[6]),
+		.ready_flag(layer2_ready_flag[1]));
+	
+	//bottom 2
+	butterfly_unit_intermediate lay2_bfu3 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer1_wire_real[1]),
+		.i_data_ca(layer1_wire_imag[1]),
 		.i_data_rb(layer1_wire_real[3]),
 		.i_data_cb(layer1_wire_imag[3]),
-		.twiddle_num(twiddle_index[4]),
-		.new_input_flag(lay1_new_input_flag), // used for synchronization
+		.twiddle_num(twiddle_index[0]),
+		.new_input_flag(lay1_new_input_flag[1]), // used for synchronization
+		.o_data_ra(layer2_wire_real[1]),
+		.o_data_ca(layer2_wire_imag[1]),
+		.o_data_rb(layer2_wire_real[3]),
+		.o_data_cb(layer2_wire_imag[3]),
+		.ready_flag(layer2_ready_flag[2]));
+
+	butterfly_unit_intermediate lay2_bfu4 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer1_wire_real[5]),
+		.i_data_ca(layer1_wire_imag[5]),
+		.i_data_rb(layer1_wire_real[7]),
+		.i_data_cb(layer1_wire_imag[7]),
+		.twiddle_num(twiddle_index[4]), //twiddle index 2/8->4
+		.new_input_flag(lay1_new_input_flag[1]), // used for synchronization
+		.o_data_ra(layer2_wire_real[5]),
+		.o_data_ca(layer2_wire_imag[5]),
+		.o_data_rb(layer2_wire_real[7]),
+		.o_data_cb(layer2_wire_imag[7]),
+		.ready_flag(layer2_ready_flag[3]));
+		
+	/*********************************************************************
+	 * Buttefly Units Layer 3/4
+	 *********************************************************************/
+	wire layer3_ready_flag [3:0];
+	wire lay2_new_input_flag [3:0];
+	assign lay2_new_input_flag[0] = layer1_ready_flag[0] & layer1_ready_flag[2];
+	assign lay2_new_input_flag[1] = layer1_ready_flag[1] & layer1_ready_flag[3];
+	
+	//top 2
+	butterfly_unit_intermediate lay3_bfu1 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer2_wire_real[0]),
+		.i_data_ca(layer2_wire_imag[0]),
+		.i_data_rb(layer2_wire_real[1]),
+		.i_data_cb(layer2_wire_imag[1]),
+		.twiddle_num(twiddle_index[0]), //twiddle 0
+		.new_input_flag(lay1_new_input_flag[0]), //bfu0,2 used for synchronization
+		.o_data_ra(output_real0),
+		.o_data_ca(output_imag0),
+		.o_data_rb(output_real4),
+		.o_data_cb(output_imag4),
+		.ready_flag(layer3_ready_flag[0]));
+
+	butterfly_unit_intermediate lay3_bfu2 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer2_wire_real[4]),
+		.i_data_ca(layer2_wire_imag[4]),
+		.i_data_rb(layer2_wire_real[5]),
+		.i_data_cb(layer2_wire_imag[5]),
+		.twiddle_num(twiddle_index[2]), //twiddle 1/8=2/16
+		.new_input_flag(lay1_new_input_flag[1]), //bfu1,3 used for synchronization
 		.o_data_ra(output_real1),
 		.o_data_ca(output_imag1),
-		.o_data_rb(output_real3),
-		.o_data_cb(output_imag3),
-		.ready_flag(layer2_ready_flag[1]));
+		.o_data_rb(output_real5),
+		.o_data_cb(output_imag5),
+		.ready_flag(layer3_ready_flag[1]));
+	
+	//bottom 2
+	butterfly_unit_intermediate lay3_bfu3 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer2_wire_real[2]),
+		.i_data_ca(layer2_wire_imag[2]),
+		.i_data_rb(layer2_wire_real[3]),
+		.i_data_cb(layer2_wire_imag[3]),
+		.twiddle_num(twiddle_index[4]), //twiddle 2/8=4/16
+		.new_input_flag(lay1_new_input_flag[0]), //bfu0,2 used for synchronization
+		.o_data_ra(output_real2),
+		.o_data_ca(output_imag2),
+		.o_data_rb(output_real6),
+		.o_data_cb(output_imag6),
+		.ready_flag(layer3_ready_flag[2]));
 
-	assign fft_ready_flag = layer2_ready_flag[0] & layer2_ready_flag[1];
+	butterfly_unit_intermediate lay3_bfu4 (
+		.clk(clk),
+		.rst(rst),
+		.i_data_ra(layer2_wire_real[6]),
+		.i_data_ca(layer2_wire_imag[6]),
+		.i_data_rb(layer2_wire_real[7]),
+		.i_data_cb(layer2_wire_imag[7]),
+		.twiddle_num(twiddle_index[6]), //twiddle 3/8=6/16
+		.new_input_flag(lay1_new_input_flag[1]), //bfu 1,3 used for synchronization
+		.o_data_ra(output_real3),
+		.o_data_ca(output_imag3),
+		.o_data_rb(output_real7),
+		.o_data_cb(output_imag7),
+		.ready_flag(layer3_ready_flag[3]));
+
+	assign fft_ready_flag = layer3_ready_flag[0] & layer3_ready_flag[1] & 
+									layer3_ready_flag[2] & layer3_ready_flag[3];
+
 endmodule

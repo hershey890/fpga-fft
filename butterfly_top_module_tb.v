@@ -188,7 +188,7 @@ module butterfly_top_module_tb;
 		rst = 0;
 
 		// Wait 100 ns for global reset to finish
-		#20;
+		/*#20;
       input_real0 = 1;
 		input_real1 = 2;
 		input_real2 = 3;
@@ -224,7 +224,53 @@ module butterfly_top_module_tb;
 		//expected output: [  8023.-3492.j   6992.+8477.j -10023.-3508.j   7008.-9477.j]
 		//results: [ 			 8021 -3494j, 	 6993 +8475j, -10021 -3506j, 	 7007 -9475j
 		//conclusion: complex values are very close, real values arent
-		//could be because real values take longer to calculate and the timing is getting messed up
+		//could be because real values take longer to calculate and the timing is getting messed up*/
+		
+		#20;
+		input_real0 = 3000;
+		input_imag0 = -2000;
+		input_real1 = 23;
+		input_imag1 = 0;
+		input_real2 = -4000;
+		input_imag2 = -1500;
+		input_real3 = 9000;
+		input_imag3 = 8;
+		input_real4 = 1;
+		input_imag4 = 5;
+		input_real5 = 2;
+		input_imag5 = 6;
+		input_real6 = 3;
+		input_imag6 = 7;
+		input_real7 = 4;
+		input_imag7 = 8;
+		new_input_flag = ~new_input_flag;
+		/*
+		Expected Result:
+		[  8033.         -3466.j        ,  -4858.52600184 -4382.22448665j,
+         6988.         +8477.j        ,  10848.04072046-12379.73920527j,
+       -10025.         -3510.j        ,   7842.52600184 +8378.22448665j,
+         7008.         -9481.j        ,  -1836.04072046  +363.73920527j]
+		
+		Read Result: (Excellent)
+			0001111101011011 8027
+			1110110100001000 -4856
+			0001101101001101 6989
+			0010101001100000 10848
+			1101100011011001 -10023
+			0001111010100100 7844
+			0001101101011111 7007
+			1111100011010100-1836
+
+			1111001001110000 -3472
+			1110111011100000 -4384
+			0010000100011011 8475
+			1100111110100101 -12379
+			1111001001001100 -3508
+			0010000010111010 8378
+			1101101011111001 -9479
+			0000000101110001 369
+		*/
+		
 	end
 	
 	always #2 clk = ~clk;

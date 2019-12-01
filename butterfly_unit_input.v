@@ -104,9 +104,9 @@ module butterfly_unit_input(
 			mult_out_c <= temp_c[31:0];
 
 			// Addition
-			o_data_ra <= i_data_ra + mult_out_r[2*data_size:data_size]; //& {16{1 || (temp_r && temp_c)}} -> ready flag
+			o_data_ra <= i_data_ra + mult_out_r[2*data_size:data_size];
 			o_data_ca <= i_data_ca + mult_out_c[2*data_size:data_size];
-			o_data_rb <= i_data_ra + (~mult_out_r[2*data_size:data_size]+1);
+			o_data_rb <= i_data_ra + (~mult_out_r[2*data_size:data_size]+1); //does the order in which i make it negative matter
 			o_data_cb <= i_data_ca + (~mult_out_c[2*data_size:data_size]+1);
 		end
 	
