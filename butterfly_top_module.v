@@ -114,7 +114,7 @@ module butterfly_top_module(
 			.o_data_ra(layer1_wire_real[0]),
 			.o_data_ca(layer1_wire_imag[0]),
 			.o_data_rb(layer1_wire_real[2]),
-			.o_data_cb(layer1_wire_real[2]),
+			.o_data_cb(layer1_wire_imag[2]),
 			.ready_flag(layer1_ready_flag[0]));
 			
 	 butterfly_unit lay0_bfu1 (
@@ -129,7 +129,7 @@ module butterfly_top_module(
 			.o_data_ra(layer1_wire_real[1]),
 			.o_data_ca(layer1_wire_imag[1]),
 			.o_data_rb(layer1_wire_real[3]),
-			.o_data_cb(layer1_wire_real[3]),
+			.o_data_cb(layer1_wire_imag[3]),
 			.ready_flag(layer1_ready_flag[1]));
 	 
 	//Layer 2
@@ -149,7 +149,7 @@ module butterfly_top_module(
 		.o_data_ra(output_real0),
 		.o_data_ca(output_imag0),
 		.o_data_rb(output_real2),
-		.o_data_cb(output_real2),
+		.o_data_cb(output_imag2),
 		.ready_flag(layer2_ready_flag[0]));
 
 	butterfly_unit lay1_bfu1 (
@@ -164,7 +164,7 @@ module butterfly_top_module(
 		.o_data_ra(output_real1),
 		.o_data_ca(output_imag1),
 		.o_data_rb(output_real3),
-		.o_data_cb(output_real3),
+		.o_data_cb(output_imag3),
 		.ready_flag(layer2_ready_flag[1]));
 
 endmodule
