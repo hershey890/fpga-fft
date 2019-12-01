@@ -252,7 +252,7 @@ module butterfly_top_module(
 		.i_data_rb(layer2_wire_real[1]),
 		.i_data_cb(layer2_wire_imag[1]),
 		.twiddle_num(twiddle_index[0]), //twiddle 0
-		.new_input_flag(lay1_new_input_flag[0]), //bfu0,2 used for synchronization
+		.new_input_flag(layer2_ready_flag[0]), //bfu0,2 used for synchronization
 		.o_data_ra(output_real0),
 		.o_data_ca(output_imag0),
 		.o_data_rb(output_real4),
@@ -267,7 +267,7 @@ module butterfly_top_module(
 		.i_data_rb(layer2_wire_real[5]),
 		.i_data_cb(layer2_wire_imag[5]),
 		.twiddle_num(twiddle_index[2]), //twiddle 1/8=2/16
-		.new_input_flag(lay1_new_input_flag[1]), //bfu1,3 used for synchronization
+		.new_input_flag(layer2_ready_flag[1]), //bfu1,3 used for synchronization
 		.o_data_ra(output_real1),
 		.o_data_ca(output_imag1),
 		.o_data_rb(output_real5),
@@ -283,7 +283,7 @@ module butterfly_top_module(
 		.i_data_rb(layer2_wire_real[3]),
 		.i_data_cb(layer2_wire_imag[3]),
 		.twiddle_num(twiddle_index[4]), //twiddle 2/8=4/16
-		.new_input_flag(lay1_new_input_flag[0]), //bfu0,2 used for synchronization
+		.new_input_flag(layer2_ready_flag[0]), //bfu0,2 used for synchronization
 		.o_data_ra(output_real2),
 		.o_data_ca(output_imag2),
 		.o_data_rb(output_real6),
@@ -298,7 +298,7 @@ module butterfly_top_module(
 		.i_data_rb(layer2_wire_real[7]),
 		.i_data_cb(layer2_wire_imag[7]),
 		.twiddle_num(twiddle_index[6]), //twiddle 3/8=6/16
-		.new_input_flag(lay1_new_input_flag[1]), //bfu 1,3 used for synchronization
+		.new_input_flag(layer2_ready_flag[1]), //bfu 1,3 used for synchronization
 		.o_data_ra(output_real3),
 		.o_data_ca(output_imag3),
 		.o_data_rb(output_real7),
