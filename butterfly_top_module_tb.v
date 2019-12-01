@@ -72,6 +72,7 @@ module butterfly_top_module_tb;
 	wire [15:0] output_imag13;
 	wire [15:0] output_imag14;
 	wire [15:0] output_imag15;
+	wire fft_ready_flag;
 
 	// Instantiate the Unit Under Test (UUT)
 	butterfly_top_module uut (
@@ -141,7 +142,8 @@ module butterfly_top_module_tb;
 		.output_imag12(output_imag12), 
 		.output_imag13(output_imag13), 
 		.output_imag14(output_imag14), 
-		.output_imag15(output_imag15)
+		.output_imag15(output_imag15),
+		.fft_ready_flag(fft_ready_flag)
 	);
 
 	initial begin
@@ -207,7 +209,17 @@ module butterfly_top_module_tb;
 		//3_r = 0000000000000000
 		//3_c = 1111111111111100
 		new_input_flag = ~new_input_flag;
-
+		
+		#40;
+		input_real0 = 3000;
+		input_imag0 = -2000;
+		input_real1 = 23;
+		input_imag1 = 0;
+		input_real2 = -4000;
+		input_imag2 = -1500;
+		input_real3 = 9000;
+		input_imag3 = 8;
+		new_input_flag = ~new_input_flag;
 	end
 	
 	always #2 clk = ~clk;

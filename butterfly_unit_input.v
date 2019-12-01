@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-`include "parameters.v"
+//`include "parameters.v"
 
-module butterfly_unit(	
+module butterfly_unit_input(	
 	input wire clk,
 	input wire rst,
 	input wire [data_size:0] i_data_ra,

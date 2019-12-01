@@ -70,7 +70,9 @@ module butterfly_top_module(
 	 output [15:0] output_imag12,
 	 output [15:0] output_imag13,
 	 output [15:0] output_imag14,
-	 output [15:0] output_imag15
+	 output [15:0] output_imag15,
+	 
+	 output fft_ready_flag
 );
 
 	/*********************************************************************
@@ -122,7 +124,7 @@ module butterfly_top_module(
 	 wire [15:0] layer1_wire_real [3:0];
 	 wire [15:0] layer1_wire_imag [3:0];
 	 wire layer1_ready_flag [1:0];
-	 butterfly_unit lay0_bfu0 (
+	 butterfly_unit_input lay0_bfu0 (
 			.clk(clk),
 			.rst(rst),
 			.i_data_ra(input_real0),
@@ -137,7 +139,7 @@ module butterfly_top_module(
 			.o_data_cb(layer1_wire_imag[2]),
 			.ready_flag(layer1_ready_flag[0]));
 			
-	 butterfly_unit lay0_bfu1 (
+	 butterfly_unit_input lay0_bfu1 (
 			.clk(clk),
 			.rst(rst),
 			.i_data_ra(input_real1),
@@ -157,7 +159,7 @@ module butterfly_top_module(
 	wire [15:0] layer2_wire_imag [3:0];
 	wire layer2_ready_flag [1:0];
 	assign lay1_new_input_flag = layer1_ready_flag[0] & layer1_ready_flag[1];
-	butterfly_unit lay1_bfu0 (
+	butterfly_unit_intermediate lay1_bfu0 (
 		.clk(clk),
 		.rst(rst),
 		.i_data_ra(layer1_wire_real[0]),
@@ -172,7 +174,7 @@ module butterfly_top_module(
 		.o_data_cb(output_imag2),
 		.ready_flag(layer2_ready_flag[0]));
 
-	butterfly_unit lay1_bfu1 (
+	butterfly_unit_intermediate lay1_bfu1 (
 		.clk(clk),
 		.rst(rst),
 		.i_data_ra(layer1_wire_real[2]),
@@ -187,4 +189,5 @@ module butterfly_top_module(
 		.o_data_cb(output_imag3),
 		.ready_flag(layer2_ready_flag[1]));
 
+	assign fft_ready_flag = layer2_ready_flag[0] & layer2_ready_flag[1];
 endmodule
