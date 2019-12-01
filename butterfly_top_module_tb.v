@@ -220,8 +220,8 @@ module butterfly_top_module_tb;
 		input_real3 = 9000;
 		input_imag3 = 8;
 		new_input_flag = ~new_input_flag;
-		//input: (300-2000j, 23+0j, -4000-1500j, 9000+8j)
-		//expected output: [  5323.-3492.j   4292.+8477.j -12723.-3508.j   4308.-9477.j]
+		//input: (3000-2000j, 23+0j, -4000-1500j, 9000+8j)
+		//expected output: [  8023.-3492.j   6992.+8477.j -10023.-3508.j   7008.-9477.j]
 		//results: [ 			 8021 -3494j, 	 6993 +8475j, -10021 -3506j, 	 7007 -9475j
 		//conclusion: complex values are very close, real values arent
 		//could be because real values take longer to calculate and the timing is getting messed up
