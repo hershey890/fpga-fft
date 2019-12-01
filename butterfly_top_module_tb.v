@@ -209,6 +209,8 @@ module butterfly_top_module_tb;
 		new_input_flag = ~new_input_flag;
 
 	end
+	
+	always #2 clk = ~clk;
       
 endmodule
 

@@ -77,6 +77,7 @@ module butterfly_top_module(
 	 * Twiddle Indices
 	 *********************************************************************/
 	wire [3:0] twiddle_index [15:0];
+	//reg [3:0] twiddle_index [15:0];
 	assign twiddle_index[0] = 4'd0;
 	assign twiddle_index[1] = 4'd1;
 	assign twiddle_index[2] = 4'd2;
@@ -93,6 +94,25 @@ module butterfly_top_module(
 	assign twiddle_index[13] = 4'd13;
 	assign twiddle_index[14] = 4'd14;
 	assign twiddle_index[15] = 4'd15;
+	
+	/*always @ (posedge rst) begin
+		twiddle_index[0] <= 4'd0;
+		twiddle_index[1] <= 4'd1;
+		twiddle_index[2] <= 4'd2;
+		twiddle_index[3] <= 4'd3;
+		twiddle_index[4] <= 4'd4;
+		twiddle_index[5] <= 4'd5;
+		twiddle_index[6] <= 4'd6;
+		twiddle_index[7] <= 4'd7;
+		twiddle_index[8] <= 4'd8;
+		twiddle_index[9] <= 4'd9;
+		twiddle_index[10] <= 4'd10;
+		twiddle_index[11] <= 4'd11;
+		twiddle_index[12] <= 4'd12;
+		twiddle_index[13] <= 4'd13;
+		twiddle_index[14] <= 4'd14;
+		twiddle_index[15] <= 4'd15;
+	end*/
 
 	/*********************************************************************
 	 * Buttefly Units Layer 1/4
