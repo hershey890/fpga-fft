@@ -498,10 +498,10 @@ module butterfly_top_module_16_point(
 	 *********************************************************************/
 	wire layer4_ready_flag [7:0];
 	wire lay3_new_input_flag [3:0];
-	assign lay3_new_input_flag[0] = layer2_ready_flag[0] & layer2_ready_flag[4];
-	assign lay3_new_input_flag[1] = layer2_ready_flag[1] & layer2_ready_flag[5];
-   assign lay3_new_input_flag[2] = layer2_ready_flag[2] & layer2_ready_flag[6];
-	assign lay3_new_input_flag[3] = layer2_ready_flag[3] & layer2_ready_flag[7];
+	assign lay3_new_input_flag[0] = layer3_ready_flag[0] & layer3_ready_flag[4];
+	assign lay3_new_input_flag[1] = layer3_ready_flag[1] & layer3_ready_flag[5];
+   assign lay3_new_input_flag[2] = layer3_ready_flag[2] & layer3_ready_flag[6];
+	assign lay3_new_input_flag[3] = layer3_ready_flag[3] & layer3_ready_flag[7];
 	
 	//top half
 	butterfly_unit_intermediate lay4_bfu0 (

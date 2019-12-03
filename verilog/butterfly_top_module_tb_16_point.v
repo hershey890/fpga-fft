@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module butterfly_top_module_tb;
+module butterfly_top_module_tb_16_point;
 
 	// Inputs
 	reg clk;
@@ -40,42 +40,42 @@ module butterfly_top_module_tb;
 	reg [15:0] input_imag15;
 
 	// Outputs
-	wire [15:0] output_real0;
-	wire [15:0] output_real1;
-	wire [15:0] output_real2;
-	wire [15:0] output_real3;
-	wire [15:0] output_real4;
-	wire [15:0] output_real5;
-	wire [15:0] output_real6;
-	wire [15:0] output_real7;
-	wire [15:0] output_real8;
-	wire [15:0] output_real9;
-	wire [15:0] output_real10;
-	wire [15:0] output_real11;
-	wire [15:0] output_real12;
-	wire [15:0] output_real13;
-	wire [15:0] output_real14;
-	wire [15:0] output_real15;
-	wire [15:0] output_imag0;
-	wire [15:0] output_imag1;
-	wire [15:0] output_imag2;
-	wire [15:0] output_imag3;
-	wire [15:0] output_imag4;
-	wire [15:0] output_imag5;
-	wire [15:0] output_imag6;
-	wire [15:0] output_imag7;
-	wire [15:0] output_imag8;
-	wire [15:0] output_imag9;
-	wire [15:0] output_imag10;
-	wire [15:0] output_imag11;
-	wire [15:0] output_imag12;
-	wire [15:0] output_imag13;
-	wire [15:0] output_imag14;
-	wire [15:0] output_imag15;
-	wire fft_ready_flag;
+	wire signed [15:0] output_real0;
+	wire signed [15:0] output_real1;
+	wire signed [15:0] output_real2;
+	wire signed [15:0] output_real3;
+	wire signed [15:0] output_real4;
+	wire signed [15:0] output_real5;
+	wire signed [15:0] output_real6;
+	wire signed [15:0] output_real7;
+	wire signed [15:0] output_real8;
+	wire signed [15:0] output_real9;
+	wire signed [15:0] output_real10;
+	wire signed [15:0] output_real11;
+	wire signed [15:0] output_real12;
+	wire signed [15:0] output_real13;
+	wire signed [15:0] output_real14;
+	wire signed [15:0] output_real15;
+	wire signed [15:0] output_imag0;
+	wire signed [15:0] output_imag1;
+	wire signed [15:0] output_imag2;
+	wire signed [15:0] output_imag3;
+	wire signed [15:0] output_imag4;
+	wire signed [15:0] output_imag5;
+	wire signed [15:0] output_imag6;
+	wire signed [15:0] output_imag7;
+	wire signed [15:0] output_imag8;
+	wire signed [15:0] output_imag9;
+	wire signed [15:0] output_imag10;
+	wire signed [15:0] output_imag11;
+	wire signed [15:0] output_imag12;
+	wire signed [15:0] output_imag13;
+	wire signed [15:0] output_imag14;
+	wire signed [15:0] output_imag15;
+	wire signed fft_ready_flag;
 
 	// Instantiate the Unit Under Test (UUT)
-	butterfly_top_module uut (
+	butterfly_top_module_16_point uut (
 		.clk(clk), 
 		.rst(rst), 
 		.new_input_flag(new_input_flag), 
@@ -304,8 +304,17 @@ module butterfly_top_module_tb;
 		input_real15 <= 16'b0000000001010000;
 		input_imag15 <= 16'b0000000000101101;
 
-
 		new_input_flag = ~new_input_flag;
+		
+		#40;
+		$display("%d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, \
+					%d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj, %d+%dj", 
+					output_real0, output_imag0, output_real1, output_imag1, output_real2, output_imag2, 
+					output_real3, output_imag3, output_real4, output_imag4, output_real5, output_imag5, 
+					output_real6, output_imag6, output_real7, output_imag7, output_real8, output_imag8, 
+					output_real9, output_imag9, output_real10, output_imag10, output_real11, output_imag11, 
+					output_real12, output_imag12, output_real13, output_imag13, output_real14, output_imag14, 
+					output_real15, output_imag15);
 
 		
 	end
