@@ -1,0 +1,4 @@
+python/.idea
+verilog/*
+!verilog/*.v
+!verilog/*.mem
