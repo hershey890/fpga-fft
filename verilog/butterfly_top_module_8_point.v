@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module butterfly_top_module(
+module butterfly_top_module_8_point(
     input clk,
     input rst,
 	 input new_input_flag,
