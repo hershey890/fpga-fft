@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module butterfly_top_module_tb;
+module butterfly_top_module_tb_8_point;
 
 	// Inputs
 	reg clk;
